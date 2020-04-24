@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+@section scripts
+{
+    
+<script>
+
+    $(function () {
+    
+        $.connection.main.client.onMessage = function (message) {
+            console.log(message);
+        };
+        
+    });
+
+    function connect() {
+        
+        $.connection.hub.qs = { "tenant": $("#tenants").val()};
+        $.connection.hub.start()
+            .done(function() { 
+                console.log('SignalR connected, connection ID=' + $.connection.hub.id + 'and tenant Id=' + $.connection.hub.qs.tenant);
+            }).fail(function(){ console.log('Could not Connect!');
+        });
+    }
+
+</script>
+}
+
+<div class="jumbotron">
+    
+    <div>
+        <select id="tenants">
+            <option value="tenant-1">Tenant 1</option>
+            <option value="tenant-2">Tenant 2</option>
+        </select>
+    </div>
+    
+    <br/>
+    <br/>
+
+    <div>
+        <button id="connect" onclick="connect()">Connect</button>
+    </div>
+
+</div>
